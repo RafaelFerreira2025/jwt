@@ -18,21 +18,6 @@ $header = ["alg" => $alg, "JWT" => $typ];
 
 $payload = ["nome" => $nome, "senha" => $senha];
 
-$header = json_encode($header);
-
-$payload = json_encode($payload);
-
-$header_encoded = base64_encode($header);
-
-$payload_encoded = base64_encode($payload);
-
-$segredo="chave";
-
-$texto = $header_encoded.$payload_encoded;
-
-$signature = hash_hmac('sha256', $texto, $segredo, false);
-
-echo $signature;
 
 
 
