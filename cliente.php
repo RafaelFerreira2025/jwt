@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <form action="jwt_server.php" method="POST">
+
+        <input type="text" placeholder="Nome" name="nome">
+        <input type="password" placeholder="Senha" name="senha">
+        <input type="submit" value="Enviar">
+
+    </form>
+
+
+    <br>
+
+
+    <a href="protegido.php">Link Protegido</a>
+
+
+    <br>
+
+    
+    <a href="localhost:8080/jwt_server.php">Servidor</a>
+
+
+</body>
+</html>
