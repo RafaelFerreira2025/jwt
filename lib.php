@@ -116,7 +116,7 @@ class TokenFactory{
     public $typ;
     private $segredo;
 
-    public function __construct($segredo='segredo', $ttl=300, $alg='HS256', $typ='JWT'){
+    public function __construct($segredo, $ttl=300, $alg='HS256', $typ='JWT'){
         $this->segredo = $segredo;
         $this->ttl = $ttl;
         $this->alg = $alg;
