@@ -1,73 +1,14 @@
 <?php 
-
-
-
-
+#NAO ESQUECER DE REDEFINIR O LUGAR DE ONDE VEM O SEGREDO QUE ESTA NA FUNCAO validateSignature() da classe JWT.
+require_once('lib.php');
 
 $nome = $_POST["nome"];
-$senha = $_POST["senha"];
+echo $nome."<br>";
 
+$fabrica = new TokenFactory(segredo: "chave secreta");
 
-$alg = "HS256";
-$typ = "JWT";
+$token = $fabrica->criaToken($nome);
 
+$payload = $fabrica->payloadDecode($token);
 
-
-
-$header = ["alg" => $alg, "JWT" => $typ];
-
-$payload = ["nome" => $nome, "senha" => $senha];
-
-
-
-
-class ServidorAut{
-
-    public $payload = [];
-    public $header; 
-    public $segredo = "chave";
-
-    private $token;
-
-    public function __construct($payload, $segredo="segredo", $header = ["alg" => "HS256", "typ" => "JWT"]){
-        
-        $this->header = $header;
-        $this->payload = $payload;
-        $this->segredo = $segredo;
-
-
-    }
-
-    public function geraToken(){
-
-        $header_encoded = json_encode($this->header);
-        $payload_encoded = json_encode($this->payload);
-        
-        $header_encoded = base64_encode($header_encoded);
-        $payload_encoded = base64_encode($payload_encoded);
-        
-        $texto = $header_encoded.$payload_encoded;
-
-        $signature = hash_hmac('sha256', $texto, $segredo, false);
-
-        $signature = base64_encode($signature);
-
-        $token = $texto.$signature;
-
-        $this->token = $token;
-
-    }
-
-    public function getToken(){
-
-        $token = $this->token;
-
-        return $token;
-
-    }
-
-}
-
-
-
-
+print_r($payload);
