@@ -1,17 +1,15 @@
 <?php 
 
-$token = $_REQUEST["Authorization"];
+$token = $_COOKIE["jwt"];
 
-// echo $token;
+echo "Token novo: ".$token."<br>";
 
-$ref = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6
-IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30";
+$ref = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicmFmYWVsIiwiZXhwaXJlcyI6MTc3MDkyMDQ5NH0=.NDA1NDU5YjA0NTgzYjExM2JlZWU0ZDJlMWQ3OTcxMWFjM2ZkN2Q4YmM2NTM2NzIxY2ZhMzM2ZGJmNGE0NmM2OA==";
 
-
+echo "<br>";
 if ($token != $ref){
-    echo 'dif';
+    echo 'diferentes';
 }else{
     echo "iguais";
 }
 
-echo $token;

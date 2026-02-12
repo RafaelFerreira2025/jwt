@@ -1,5 +1,19 @@
 <?php 
 
+class Url{
+
+    public $data;
+
+
+    public static function base64url_encode($data){
+        return rtrim(strtr(base64_encode($data),'+/','-_'),"=");
+    }
+    public static function base64url_decode($data){
+        return base64_decode(str_pad(strtr($data,"-_","+/")));
+    }
+
+}
+
 class JWT{
 
     
@@ -29,7 +43,9 @@ class JWT{
         
         $texto = $header_encoded.".".$payload_encoded;
 
-        $signature = hash_hmac('sha256', $texto, $segredo, false);
+        #$signature = hash_hmac('sha256', $texto, $segredo, false);
+
+        $signature = hash_hmac("sha256",$header_encoded.".".$payload_encoded, $segredo, False);
 
         $signature = base64_encode($signature);
 
@@ -157,13 +173,22 @@ class TokenFactory{
     }
 
     public function payloadDecode($token_encoded){
-
+        
+        /*Retorna uma string com dados no formato JSON_ENCODED dos campos do payload do JWT*/ 
+        // a variavel token é um array com 3 strings no formato json-encoded retornados por parseToken
         $token_object = new JWT();
         $token = $token_object->parseToken($token_encoded);
 
         $payload = $token[1];
 
         return $payload;
+    }
+
+    public function getSignature($token){
+        $token_object = new JWT();
+        $signature = $token_object->parseToken($token);
+        $signature = $signature[2];
+        return $signature;
     }
 
 }

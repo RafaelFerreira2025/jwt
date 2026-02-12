@@ -3,12 +3,16 @@
 require_once('lib.php');
 
 $nome = $_POST["nome"];
-echo $nome."<br>";
+// echo $nome."<br>";
 
 $fabrica = new TokenFactory(segredo: "chave secreta");
 
 $token = $fabrica->criaToken($nome);
 
-$payload = $fabrica->payloadDecode($token);
+$payload = json_decode($fabrica->payloadDecode($token), True);
 
-print_r($payload);
+setcookie("jwt", $token, $payload["expires"],"/");
+header('Location:protegido.php');
+
+$mostrar = function (){echo "<br>Token JWT:  ".$token;echo "<br><br>";echo "Payload do JWT<br>";print_r($payload);};
+// $mostrar();
