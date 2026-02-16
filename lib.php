@@ -2,15 +2,25 @@
 
 class Url{
 
-    public $data;
+   public static function url64_encode($data){
 
+        return rtrim(strtr(base64_encode($data),'+/', '-_'), '=');
 
-    public static function base64url_encode($data){
-        return rtrim(strtr(base64_encode($data),'+/','-_'),"=");
-    }
-    public static function base64url_decode($data){
-        return base64_decode(str_pad(strtr($data,"-_","+/")));
-    }
+   }
+
+   public static function url64_decode($data){
+
+        $tamanho = strlen($data);
+        if (($tamanho % 3) == 2){
+            $data = $data."=";
+        }elseif(($tamanho % 3) == 1){
+            $data = $data."==";
+        }else{
+            $data = $data;
+        }
+        return $data;
+    }        
+
 
 }
 
