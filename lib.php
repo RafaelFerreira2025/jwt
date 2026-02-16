@@ -2,14 +2,16 @@
 
 class Url{
 
-   public static function url64_encode($data){
+   public static function urlEncode($data){
 
         return rtrim(strtr(base64_encode($data),'+/', '-_'), '=');
 
    }
 
-   public static function url64_decode($data){
-
+   public static function urlDecode($data){
+        
+        $data = strtr($data,'-_','+/');
+        
         $tamanho = strlen($data);
         if (($tamanho % 3) == 2){
             $data = $data."=";
@@ -18,7 +20,9 @@ class Url{
         }else{
             $data = $data;
         }
-        return $data;
+        
+        return base64_decode($data);
+
     }        
 
 
@@ -48,16 +52,23 @@ class JWT{
         $header_encoded = json_encode($this->header);
         $payload_encoded = json_encode($this->payload);
         
-        $header_encoded = base64_encode($header_encoded);
-        $payload_encoded = base64_encode($payload_encoded);
+        // $header_encoded = base64_encode($header_encoded);
+        // $payload_encoded = base64_encode($payload_encoded);
         
+
+        $header_encoded = Url::urlEncode($header_encoded);
+        $payload_encoded = Url::urlEncode($payload_encoded);
+        
+
         $texto = $header_encoded.".".$payload_encoded;
 
         #$signature = hash_hmac('sha256', $texto, $segredo, false);
 
         $signature = hash_hmac("sha256",$header_encoded.".".$payload_encoded, $segredo, False);
 
-        $signature = base64_encode($signature);
+        // $signature = base64_encode($signature);
+
+        $signature = Url::urlEncode($signature);
 
         $token = $texto.".".$signature;
 
@@ -77,9 +88,15 @@ class JWT{
         /*Retorna array com dados no formato JSON_ENCODED dos campos do JWT*/ 
         $token = explode(".",$token);
         
-        $header = base64_decode($token[0]);
-        $payload = base64_decode($token[1]);
-        $signature = base64_decode($token[2]);
+        // $header = base64_decode($token[0]);
+        // $payload = base64_decode($token[1]);
+        // $signature = base64_decode($token[2]);
+
+
+        $header = Url::urlDecode($token[0]);
+        $payload = Url::urlDecode($token[1]);
+        $signature = Url::urlDecode($token[2]);
+
 
         $token[0] = $header;
         $token[1] = $payload;
