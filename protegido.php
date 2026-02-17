@@ -1,4 +1,6 @@
 <?php 
+require_once('lib.php');
+function compararTokens(){
 
 $token = $_COOKIE["jwt"];
 
@@ -12,3 +14,24 @@ if ($token != $ref){
     echo "iguais";
 }
 
+}
+
+if(isset($_COOKIE["jwt"])){
+
+    $token = $_COOKIE["jwt"]; 
+    
+    $hora = time();
+
+    $fabrica = new TokenFactory();
+    $payload = $fabrica->payloadDecode($token);
+
+    $payload = json_decode($payload);
+
+    $payload = $payload->expires;
+    echo $payload;
+    echo "<br>Hora atual".time();
+
+}else{
+    // $_POST['autentificado']="valido";
+    header('Location:cliente.php');
+}

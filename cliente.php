@@ -7,6 +7,13 @@
 </head>
 <body>
     
+    <?php 
+
+        if( isset($_POST["autentificado"])){
+            echo $_POST["autentificado"];
+        }
+
+    ?>
 
     <form action="jwt_server.php" method="POST">
 
